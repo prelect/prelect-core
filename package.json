@@ -1,0 +1,19 @@
+{
+  "name": "prelect-core",
+  "version": "1.0.0",
+  "description": "WebAssembly module implementing PRELECT language",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prelect/prelect-core.git"
+  },
+  "author": "frithsun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prelect/prelect-core/issues"
+  },
+  "homepage": "https://github.com/prelect/prelect-core#readme"
+}
