@@ -5,6 +5,9 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "engines": {
+    "node": ">=19"
+  },
   "rules": {
     "prettier/prettier": "error",
     "import/no-unresolved": "off",
