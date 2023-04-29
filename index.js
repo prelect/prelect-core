@@ -70,9 +70,11 @@ export default class PrelectCore {
     console.log(this.mem.slice(0, 64));
   }
 
-  createTable(fields = []) {
+  // if it has a parentTable, it's an index
+  createTable(fields = [], parentTable = 0n) {
     if (this.mem[0n] + 4n + BigInt(fields.length * 2) > this.mem.length) {
       // TODO: grow memory when overflow
+      // try defrag before grow
       throw new Error("memory overflow");
     }
 
@@ -89,20 +91,30 @@ export default class PrelectCore {
     this.mem[1n] = this.mem[0n];
 
     // parent table pointer
-    this.mem[this.mem[1n] + 1n] = 999n;
+    this.mem[this.mem[1n] + 1n] = parentTable;
 
     // data pointer
-    this.mem[this.mem[1n] + 2n] = 998n;
+    this.mem[this.mem[1n] + 2n] = 0n;
 
     // number of fields
-    this.mem[this.mem[1n] + 3n] = BigInt(fields.length);
+    if (parentTable > 0) {
+      this.mem[this.mem[1n] + 3n] = this.mem[parentTable + 3n];
+    } else {
+      this.mem[this.mem[1n] + 3n] = BigInt(fields.length);
+    }
 
     fields.forEach((field, i) => {
       i = BigInt(i);
       // mutable? nullable? locked? reordered? deleted?
       this.mem[this.mem[1n] + 4n + 2n * i + 0n] = 997n;
-      // type (or formula address)
-      this.mem[this.mem[1n] + 4n + 2n * i + 1n] = field.type;
+
+      if (parentTable > 0) {
+        // order
+        this.mem[this.mem[1n] + 4n + 2n * i + 1n] = field;
+      } else {
+        // type (or formula address)
+        this.mem[this.mem[1n] + 4n + 2n * i + 1n] = field.type;
+      }
     });
 
     // move cursor forward
@@ -110,8 +122,6 @@ export default class PrelectCore {
 
     return this.mem[1n];
   }
-
-  createIndex(table) {}
 
   dropTable(table) {}
 
