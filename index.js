@@ -66,16 +66,16 @@ export default class PrelectCore {
     this.mem[1n] = 0n; // last table pointer
 
     this.createTable([this.prim.i64, this.prim.f32]);
-    this.createTable([this.prim.i1]);
-    this.createTable();
-    this.createTable();
-    this.createTable();
-    this.createTable();
   
-    console.log(this.mem.slice(0, 32));
+    console.log(this.mem.slice(0, 64));
   }
 
   createTable(fields = []) {
+    if (this.mem[0n] + 4n + BigInt(fields.length * 2) > this.mem.length) {
+      // TODO: grow memory when overflow
+      throw new Error("memory overflow");
+    }
+
     // TODO: handle if more than 64 bit number of fields?
     if (fields.length >= 2n ** 64n) {
       throw new Error("table field # overflow");
@@ -107,6 +107,8 @@ export default class PrelectCore {
 
     // move cursor forward
     this.mem[0n] = this.mem[1n] + 4n + BigInt(fields.length) * 2n;
+
+    return this.mem[1n];
   }
 
   createIndex(table) {}
