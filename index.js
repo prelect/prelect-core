@@ -39,6 +39,11 @@ export default class PrelectCore {
         bits: 64,
         cast: Float64Array
       },
+      v128: {
+        type: 8n,
+        bits: 128,
+        cast: BigInt.asUintN(128, 0n)
+      },
     };
 
     return this.init();
@@ -123,15 +128,15 @@ export default class PrelectCore {
     return this.mem[1n];
   }
 
-  dropTable(table) {}
-
-  read(table, columns, rowFirst, rowFinal) {}
-
   insert(table, data) {}
 
   update(table, row, data) {}
 
+  read(table, columns, rowFirst, rowFinal) {}
+
   delete(table, row) {}
+
+  dropTable(table) {}
 }
 
 const prelectCore = new PrelectCore();
