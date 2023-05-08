@@ -25,7 +25,7 @@ Table Definitions are defined at compile time while Instance Definitions and the
 
 #### Table Definition
 
-The ninth position (8) in memory is the first Table Definition. Table definitions are abstract and are not associated with any data. An Instance Definition must be defined with a Table Definition with its parent, with the Instance Definition pointing to a list of Chunk Definitions that point to Chunk Dumps.
+The ninth position (9) in memory is the first Table Definition. Table definitions are abstract and are not associated with any data. An Instance Definition must be defined with a Table Definition with its parent, with the Instance Definition pointing to a list of Chunk Definitions that point to Chunk Dumps.
 
 The names of tables and rows don't exist at this level, with tables and rows defined by the order in which they're defined. There are no strings at this level, only unsigned integers and floats.
 
@@ -62,7 +62,7 @@ The Instance Definition points to the Chunk Definition when there's data. This m
 
 | Position | Purpose                           |
 | -------- | --------------------------------- |
-| Ax64     | pointer to table definition       |
+| Ax64     | pointer to Table Definition       |
 | Bx64     | pointer to first Chunk Definition |
 
 #### Chunk Definition
